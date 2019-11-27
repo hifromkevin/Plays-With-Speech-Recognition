@@ -34,6 +34,19 @@
       recognition.grammars = speechRecognitionGrammarList;
       recognition.lang = 'en-US';
       recognition.interimResults = false;
+
+      recognition.onresult = (event) => {
+        let last = event.results.length - 1;
+        let command = event.results[last][0].transcript;
+        message.textContent = `Voice Input: ${command}`;
+      }
+      
+      recognition.onspeechend = () => {
+        recognition.stop();
+        done.textContent = `I can't hear you.`;
+      }
+      
+      recognition.onerror = event => console.log(`Error occurred: ${event.error}`);
     </script>
   </body>
 </html>
